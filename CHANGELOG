@@ -1,0 +1,10 @@
+1.0.0 (2016/4/20)
+-Could be used.
+-o=[0,1].
+-delta(function).
+
+1.0.1 (2016/4/27)
+-Could be used.
+-o=[-0.5,0.5].
+-delta(array).
+-theta(t+1);
