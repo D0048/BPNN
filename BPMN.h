@@ -15,19 +15,23 @@ namespace mws
 			double **theta;
 			double **delta;
 			double ***w;
+			double ***lw;
 			double eta;
+			double alpha;
 			net_con con;
 			
-			BP(int level,int *num,double inital_w=0.5,double inital_eta=1.0)
+			BP(int level,int *num,double inital_w=0.5,double inital_eta=1.0,double inital_alpha=0.3)
 			{
 				net=new double*[level];
 				o=new double*[level];
 				theta=new double*[level];
 				delta=new double*[level];
 				w=new double**[level-1];
+				lw=new double**[level-1];
 				con.level=level;
 				con.num=num;
 				eta=inital_eta;
+				alpha=inital_alpha;
 				for (int i=0;i<level;i++)
 				{
 					net[i]=new double[num[i]];
@@ -46,18 +50,21 @@ namespace mws
 				for (int i=0;i<(level-1);i++)
 				{
 					w[i]=new double*[num[i]];
+					lw[i]=new double*[num[i]];
 					for (int j=0;j<num[i];j++)
 					{
 						w[i][j]=new double[num[i+1]];
+						lw[i][j]=new double[num[i+1]];
 						for (int k=0;k<num[i+1];k++)
 						{
 							w[i][j][k]=inital_w;
+							lw[i][j][k]=0;
 						}
 					}
 				}
 			}
 			
-			double s_type_function(double x)
+			double sigmoid(double x)
 			{
 				return (1.0/(1.0+exp(x)))-0.5;
 			}
@@ -67,7 +74,7 @@ namespace mws
 				for (int i=0;i<con.num[0];i++)
 				{
 					net[0][i]=x[i];
-					o[0][i]=s_type_function(-net[0][i]+theta[0][i]);
+					o[0][i]=sigmoid(-net[0][i]+theta[0][i]);
 					#ifdef _DEBUG_
 					printf("O[0][%d]=%f\n",i,o[0][i]);
 					#endif
@@ -81,7 +88,7 @@ namespace mws
 						{
 							net[i][j]+=o[i-1][k]*w[i-1][k][j];
 						}
-						o[i][j]=s_type_function(-net[i][j]+theta[i][j]);
+						o[i][j]=sigmoid(-net[i][j]+theta[i][j]);
 						#ifdef _DEBUG_
 						printf("O[%d][%d]=%f\n",i,j,o[i][j]);
 						#endif
@@ -134,7 +141,8 @@ namespace mws
 						#endif
 						for (int k=0;k<con.num[i+1];k++)
 						{
-							w[i][j][k]+=eta*delta[i][k]*o[i][j];
+							w[i][j][k]+=eta*delta[i][k]*o[i][j]+alpha*lw[i][j][k];
+							lw[i][j][k]=eta*delta[i][k]*o[i][j];
 							#ifdef _DEBUG_
 							printf("W[%d][%d][%d]=%f\n",i,j,k,w[i][j][k]);
 							#endif
