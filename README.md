@@ -1,9 +1,31 @@
-# Back Propagation Neural Network
+# Back Propagation Neural Network    --By mwsht
+## Feature:
+	-There is a momentum term in the weight 
+	adjustment formula.
+	-Range of sigmoid(x) is from -0.5 to 0.5 .
+	-It have delta theta.
 
-This is a simple neural network with some input units and some output unit.
+## Parameter description:
+	-w[][][]:Connection weights between neurons
+	-level:Number of neuron layer
+	-num[]:Number of neurons in each neuron layer
+	-eta:Learning efficiency
+	-alpha:Weight of connection weights on last time
 
-![simple](https://upload.wikimedia.org/wikipedia/commons/4/42/A_simple_neural_network_with_two_input_units_and_one_output_unit.png)
+## Variable description:
+	-net[][]:General output of neurons
+	-o[][]:Output of neurons
+	-y[]:Output of the neural network
+	-theta[][]:Threshold of neurons
+	-lw[][][]:Connection weights on last time
+	-delta[][]:Process variable which is in order to calculate delta theta and delta w
+	-x[]:Input of the neural network
+	-d[]:Desired output of the neural network
 
-The network functions as follows: Each neuron receives a signal from the neurons in the previous layer, and each of those signals is multiplied by a separate weight value. The weighted inputs are summed, and passed through a limiting function which scales the output to a fixed range of values. The output of the limiter is then broadcast to all of the neurons in the next layer. So, to use the network to solve a problem, we apply the input values to the inputs of the first layer, allow the signals to propagate through the network, and read the output values.
-
-![nnfig](http://www.seattlerobotics.org/encoder/nov98/nnfig1.jpg)
+## Function description:
+	-BP(level,*num,inital_w,inital_eta,inital_alpha): Initialization
+	-sigmoid(x):S type function
+	-calculate_net(*x):Calculate the output of neurons and the output of the neural network
+	-calculate_delta_and_theta(*d):Calculate delta and theta
+	-show(*x):Print the output of the neural network on the screen
+	-train(*x,*d):Train the neural network
