@@ -2,7 +2,7 @@
 ## Feature:
 	-There is a momentum term in the weight 
 	adjustment formula.
-	-Range of sigmoid(x) is from $0$ to $1$ .
+	-Range of sigmoid(x) is from 0 to 1 .
 	-It have delta theta.
 
 ## Parameter description:
