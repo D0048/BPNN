@@ -1,20 +1,35 @@
-#define _DEBUG_
+//#define _DEBUG_
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <math.h>
 #include "BPMN.h"
 
-int test_num[]={6,8,8,8,8,6};
+double E(mws::BP use,double *x,double *y);
 
-mws::BP test(6,test_num);
+int test_num[]={6,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,6};
+
+mws::BP test(20,test_num);
 
 int main()
 {
-	double x1[]={1,-16,-8,3,-5,7};
-	double y1[]={0,1,1,0,1,0};
-	double x2[]={8,-259,-6,-7,8,-2};
+	double x2[]={10,-259,-6,-7,10,-2};
 	double y2[]={1,0,1,1,1,0};
-	test.tran(x1,y1);
-	test.show(x1);
-	test.tran(x2,y2);
-	test.show(x2);
+	for (int i=0;i<100;i++)
+	{
+		test.tran(x2,y2);
+		printf("%f,",E(test,x2,y2));
+		//test.show(x2);
+	}
+}
+
+double E(mws::BP use,double *x,double *y)
+{
+	double e=0;
+	use.calculate_net(x);
+	for (int j=0;j<6;j++)
+	{
+		e+=(use.y[j]-y[j])*(use.y[j]-y[j]);	
+	}
+	return e;
 }
