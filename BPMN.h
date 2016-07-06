@@ -20,9 +20,8 @@ namespace mws
 			double alpha;
 			net_con con;
 			
-			BP(int level,int *num,double inital_eta=1.0,double inital_alpha=0.8,double inital_theta=0.5)
+			BP(int level,int *num,double inital_eta=1.0,double inital_alpha=0.1,double inital_theta=0.5)
 			{
-				srand(time(NULL));
 				net=new double*[level];
 				o=new double*[level];
 				theta=new double*[level];
@@ -80,7 +79,7 @@ namespace mws
 				for (int i=0;i<con.num[0];i++)
 				{
 					net[0][i]=x[i];
-					o[0][i]=sigmoid(-net[0][i]+theta[0][i]);
+					o[0][i]=x[i];
 					#ifdef _DEBUG_
 					printf("O[0][%d]=%f\n",i,o[0][i]);
 					#endif
@@ -156,5 +155,26 @@ namespace mws
 					}
 				}
 			}
+			
+			double E(double *x,double *y)
+			{
+				double e=0;
+				this->calculate_net(x);
+				for (int j=0;j<con.num[con.level-1];j++)
+				{
+					e+=(this->y[j]-y[j])*(this->y[j]-y[j]);	
+				}
+				return sqrt(e);
+			}
 	};
+	
+	double abs(double x)
+	{
+		if (x>0)
+		{
+			return x;
+		}else{
+			return -x;
+		}
+	}
 }
