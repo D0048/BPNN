@@ -13,3 +13,6 @@
 -o=[0,1].
 -init_w=1.0 or -1.0
 -init_alpha=0.8
+
+1.2.0 (2016/7/6)
+-add test simple(sometimes good,sometimes no)
